@@ -7,7 +7,7 @@ import dagger.Binds;
 import dagger.Module;
 
 @Module
-public abstract class FileIOModule {
+public abstract class FIleIOModule {
 	
 	@Binds
 	public abstract DataAccess bindDataAccess(FileIO fileIO);

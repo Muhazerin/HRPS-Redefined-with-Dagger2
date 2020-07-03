@@ -72,10 +72,8 @@ public class RoomManager implements SelectRoom, AddObject, ModifyObject, PrintSi
 					}
 				}
 			}
+			this.dataAccess.writeObject(roomList.toArray(), Room.class);
 		}
-		this.dataAccess.writeObject(roomList.toArray(), Room.class);
-
-		
 	}
 	
 	public Object[] getList() {

@@ -10,13 +10,9 @@ import com.muhazerin.HRPS_Redefined_with_Dagger2.control.GuestManager;
 import com.muhazerin.HRPS_Redefined_with_Dagger2.control.MenuItemManager;
 import com.muhazerin.HRPS_Redefined_with_Dagger2.control.ReservationManager;
 import com.muhazerin.HRPS_Redefined_with_Dagger2.control.RoomManager;
-import com.muhazerin.HRPS_Redefined_with_Dagger2.dagger.DaggerGuestManagerComponent;
-import com.muhazerin.HRPS_Redefined_with_Dagger2.dagger.DaggerMenuItemManagerComponent;
-import com.muhazerin.HRPS_Redefined_with_Dagger2.dagger.DaggerReservationManagerComponent;
+import com.muhazerin.HRPS_Redefined_with_Dagger2.dagger.DaggerManagerComponent;
 import com.muhazerin.HRPS_Redefined_with_Dagger2.dagger.DaggerRoomManagerComponent;
-import com.muhazerin.HRPS_Redefined_with_Dagger2.dagger.GuestManagerComponent;
-import com.muhazerin.HRPS_Redefined_with_Dagger2.dagger.MenuItemManagerComponent;
-import com.muhazerin.HRPS_Redefined_with_Dagger2.dagger.ReservationManagerComponent;
+import com.muhazerin.HRPS_Redefined_with_Dagger2.dagger.ManagerComponent;
 import com.muhazerin.HRPS_Redefined_with_Dagger2.dagger.RoomManagerComponent;
 import com.muhazerin.HRPS_Redefined_with_Dagger2.entity.Guest;
 import com.muhazerin.HRPS_Redefined_with_Dagger2.entity.MenuItem;
@@ -29,11 +25,6 @@ public class HRPSApp {
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
-		
-		GuestManagerComponent guestManagerComponent = DaggerGuestManagerComponent.builder()
-				.scanner(sc)
-				.build();
-        GuestManager guestManager = guestManagerComponent.getGuestManager();
         
         RoomManagerComponent roomManagerComponent = DaggerRoomManagerComponent.builder()
         		.scanner(sc)
@@ -43,16 +34,15 @@ public class HRPSApp {
 		// creating a thread pool with size = total number of rooms
 		ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(roomManager.getTotalNumberOfRooms());
 
-		MenuItemManagerComponent menuItemManagerComponent = DaggerMenuItemManagerComponent.builder()
-				.scanner(sc)
-				.build();
-		MenuItemManager menuItemManager = menuItemManagerComponent.getMenuItemManager();
-		
-		ReservationManagerComponent reservationManagerComponent = DaggerReservationManagerComponent.builder()
+		ManagerComponent managerComponent = DaggerManagerComponent.builder()
 				.scanner(sc)
 				.scheduledExecutorService(scheduledExecutorService)
 				.build();
-		ReservationManager reservationManager = reservationManagerComponent.getReservationManager();
+
+		roomManager = managerComponent.getRoomManager();
+        GuestManager guestManager = managerComponent.getGuestManager();
+		MenuItemManager menuItemManager = managerComponent.getMenuItemManager();
+		ReservationManager reservationManager = managerComponent.getReservationManager();
 		reservationManager.adjustObject(guestManager.getList());
 		reservationManager.adjustObject(roomManager.getList());
 		

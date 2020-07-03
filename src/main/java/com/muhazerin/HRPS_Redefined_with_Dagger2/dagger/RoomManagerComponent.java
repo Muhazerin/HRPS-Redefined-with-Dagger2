@@ -2,12 +2,15 @@ package com.muhazerin.HRPS_Redefined_with_Dagger2.dagger;
 
 import java.util.Scanner;
 
+import javax.inject.Singleton;
+
 import com.muhazerin.HRPS_Redefined_with_Dagger2.control.RoomManager;
 
 import dagger.BindsInstance;
 import dagger.Component;
 
-@Component (modules = FileIOModule.class)
+@Singleton
+@Component (modules = FIleIOModule.class)
 public interface RoomManagerComponent {
 	public RoomManager getRoomManager();
 	

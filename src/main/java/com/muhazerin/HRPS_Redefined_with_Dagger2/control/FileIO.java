@@ -10,6 +10,7 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import com.muhazerin.HRPS_Redefined_with_Dagger2.interfaces.DataAccess;
 
@@ -19,6 +20,8 @@ import com.muhazerin.HRPS_Redefined_with_Dagger2.interfaces.DataAccess;
  * @author https://github.com/KohTongLiang
  *
  */
+
+@Singleton
 public class FileIO implements DataAccess{
 	private String directory = "";
 

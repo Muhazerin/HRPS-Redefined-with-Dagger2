@@ -42,8 +42,9 @@ public class ReservationManager implements AddReservation, ModifyObject, PrintSi
 	private ScheduledExecutorService scheduledExecutorService;
 	
 	@Inject
-	public ReservationManager(Scanner sc, DataAccess dataAccess) {
+	public ReservationManager(Scanner sc, DataAccess dataAccess, ScheduledExecutorService scheduledExecutorService) {
 		this.dataAccess = dataAccess;
+		this.scheduledExecutorService = scheduledExecutorService;
 		this.sc = sc;
 		
 		reservationList = new ArrayList<Reservation>();

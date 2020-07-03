@@ -18,9 +18,12 @@ import javax.annotation.processing.Generated;
 public final class DaggerReservationManagerComponent implements ReservationManagerComponent {
   private final Scanner scanner;
 
+  private final ScheduledExecutorService scheduledExecutorService;
+
   private DaggerReservationManagerComponent(Scanner scannerParam,
-      ScheduledExecutorService scheduledExecutorService) {
+      ScheduledExecutorService scheduledExecutorServiceParam) {
     this.scanner = scannerParam;
+    this.scheduledExecutorService = scheduledExecutorServiceParam;
   }
 
   public static ReservationManagerComponent.Builder builder() {
@@ -29,7 +32,7 @@ public final class DaggerReservationManagerComponent implements ReservationManag
 
   @Override
   public ReservationManager getReservationManager() {
-    return new ReservationManager(scanner, new FileIO());}
+    return new ReservationManager(scanner, new FileIO(), scheduledExecutorService);}
 
   private static final class Builder implements ReservationManagerComponent.Builder {
     private Scanner scanner;

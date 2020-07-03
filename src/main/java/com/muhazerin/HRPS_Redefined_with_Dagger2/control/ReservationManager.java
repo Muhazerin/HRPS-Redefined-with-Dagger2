@@ -79,10 +79,6 @@ public class ReservationManager implements AddReservation, ModifyObject, PrintSi
 		}
 	}
 	
-	public void addService(ScheduledExecutorService scheduledExecutorService) {
-		this.scheduledExecutorService = scheduledExecutorService;
-	}
-	
 	@Override
 	public void addReservation(Guest guest, Room room, boolean walkIn) {
 		LocalDate checkInDate = null;

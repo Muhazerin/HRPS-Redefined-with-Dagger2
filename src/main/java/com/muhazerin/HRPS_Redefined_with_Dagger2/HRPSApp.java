@@ -30,21 +30,31 @@ public class HRPSApp {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		
-		GuestManagerComponent guestManagerComponent = DaggerGuestManagerComponent.create();
+		GuestManagerComponent guestManagerComponent = DaggerGuestManagerComponent.builder()
+				.scanner(sc)
+				.build();
         GuestManager guestManager = guestManagerComponent.getGuestManager();
-        RoomManagerComponent roomManagerComponent = DaggerRoomManagerComponent.create();
+        
+        RoomManagerComponent roomManagerComponent = DaggerRoomManagerComponent.builder()
+        		.scanner(sc)
+        		.build();
         RoomManager roomManager = roomManagerComponent.getRoomManager();
         
 		// creating a thread pool with size = total number of rooms
 		ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(roomManager.getTotalNumberOfRooms());
 
-		MenuItemManagerComponent menuItemManagerComponent = DaggerMenuItemManagerComponent.create();
+		MenuItemManagerComponent menuItemManagerComponent = DaggerMenuItemManagerComponent.builder()
+				.scanner(sc)
+				.build();
 		MenuItemManager menuItemManager = menuItemManagerComponent.getMenuItemManager();
-		ReservationManagerComponent reservationManagerComponent = DaggerReservationManagerComponent.create();
+		
+		ReservationManagerComponent reservationManagerComponent = DaggerReservationManagerComponent.builder()
+				.scanner(sc)
+				.scheduledExecutorService(scheduledExecutorService)
+				.build();
 		ReservationManager reservationManager = reservationManagerComponent.getReservationManager();
 		reservationManager.adjustObject(guestManager.getList());
 		reservationManager.adjustObject(roomManager.getList());
-		reservationManager.addService(scheduledExecutorService);
 		
 		int option = -1, option2 = -1;
 		do {

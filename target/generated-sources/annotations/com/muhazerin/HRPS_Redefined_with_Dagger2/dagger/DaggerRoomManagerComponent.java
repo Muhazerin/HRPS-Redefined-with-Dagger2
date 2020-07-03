@@ -3,6 +3,7 @@ package com.muhazerin.HRPS_Redefined_with_Dagger2.dagger;
 import com.muhazerin.HRPS_Redefined_with_Dagger2.control.FileIO;
 import com.muhazerin.HRPS_Redefined_with_Dagger2.control.RoomManager;
 import dagger.internal.Preconditions;
+import java.util.Scanner;
 import javax.annotation.processing.Generated;
 
 @Generated(
@@ -14,40 +15,33 @@ import javax.annotation.processing.Generated;
     "rawtypes"
 })
 public final class DaggerRoomManagerComponent implements RoomManagerComponent {
-  private final ScannerModule scannerModule;
+  private final Scanner scanner;
 
-  private DaggerRoomManagerComponent(ScannerModule scannerModuleParam) {
-    this.scannerModule = scannerModuleParam;
+  private DaggerRoomManagerComponent(Scanner scannerParam) {
+    this.scanner = scannerParam;
   }
 
-  public static Builder builder() {
+  public static RoomManagerComponent.Builder builder() {
     return new Builder();
-  }
-
-  public static RoomManagerComponent create() {
-    return new Builder().build();
   }
 
   @Override
   public RoomManager getRoomManager() {
-    return new RoomManager(ScannerModule_ProvideScannerFactory.provideScanner(scannerModule), new FileIO());}
+    return new RoomManager(scanner, new FileIO());}
 
-  public static final class Builder {
-    private ScannerModule scannerModule;
+  private static final class Builder implements RoomManagerComponent.Builder {
+    private Scanner scanner;
 
-    private Builder() {
-    }
-
-    public Builder scannerModule(ScannerModule scannerModule) {
-      this.scannerModule = Preconditions.checkNotNull(scannerModule);
+    @Override
+    public Builder scanner(Scanner sc) {
+      this.scanner = Preconditions.checkNotNull(sc);
       return this;
     }
 
+    @Override
     public RoomManagerComponent build() {
-      if (scannerModule == null) {
-        this.scannerModule = new ScannerModule();
-      }
-      return new DaggerRoomManagerComponent(scannerModule);
+      Preconditions.checkBuilderRequirement(scanner, Scanner.class);
+      return new DaggerRoomManagerComponent(scanner);
     }
   }
 }

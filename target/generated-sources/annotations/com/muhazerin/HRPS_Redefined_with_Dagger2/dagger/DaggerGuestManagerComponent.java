@@ -3,6 +3,7 @@ package com.muhazerin.HRPS_Redefined_with_Dagger2.dagger;
 import com.muhazerin.HRPS_Redefined_with_Dagger2.control.FileIO;
 import com.muhazerin.HRPS_Redefined_with_Dagger2.control.GuestManager;
 import dagger.internal.Preconditions;
+import java.util.Scanner;
 import javax.annotation.processing.Generated;
 
 @Generated(
@@ -14,40 +15,33 @@ import javax.annotation.processing.Generated;
     "rawtypes"
 })
 public final class DaggerGuestManagerComponent implements GuestManagerComponent {
-  private final ScannerModule scannerModule;
+  private final Scanner scanner;
 
-  private DaggerGuestManagerComponent(ScannerModule scannerModuleParam) {
-    this.scannerModule = scannerModuleParam;
+  private DaggerGuestManagerComponent(Scanner scannerParam) {
+    this.scanner = scannerParam;
   }
 
-  public static Builder builder() {
+  public static GuestManagerComponent.Builder builder() {
     return new Builder();
-  }
-
-  public static GuestManagerComponent create() {
-    return new Builder().build();
   }
 
   @Override
   public GuestManager getGuestManager() {
-    return new GuestManager(ScannerModule_ProvideScannerFactory.provideScanner(scannerModule), new FileIO());}
+    return new GuestManager(scanner, new FileIO());}
 
-  public static final class Builder {
-    private ScannerModule scannerModule;
+  private static final class Builder implements GuestManagerComponent.Builder {
+    private Scanner scanner;
 
-    private Builder() {
-    }
-
-    public Builder scannerModule(ScannerModule scannerModule) {
-      this.scannerModule = Preconditions.checkNotNull(scannerModule);
+    @Override
+    public Builder scanner(Scanner sc) {
+      this.scanner = Preconditions.checkNotNull(sc);
       return this;
     }
 
+    @Override
     public GuestManagerComponent build() {
-      if (scannerModule == null) {
-        this.scannerModule = new ScannerModule();
-      }
-      return new DaggerGuestManagerComponent(scannerModule);
+      Preconditions.checkBuilderRequirement(scanner, Scanner.class);
+      return new DaggerGuestManagerComponent(scanner);
     }
   }
 }

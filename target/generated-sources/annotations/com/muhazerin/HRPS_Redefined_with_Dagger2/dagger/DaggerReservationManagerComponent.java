@@ -3,6 +3,8 @@ package com.muhazerin.HRPS_Redefined_with_Dagger2.dagger;
 import com.muhazerin.HRPS_Redefined_with_Dagger2.control.FileIO;
 import com.muhazerin.HRPS_Redefined_with_Dagger2.control.ReservationManager;
 import dagger.internal.Preconditions;
+import java.util.Scanner;
+import java.util.concurrent.ScheduledExecutorService;
 import javax.annotation.processing.Generated;
 
 @Generated(
@@ -14,40 +16,43 @@ import javax.annotation.processing.Generated;
     "rawtypes"
 })
 public final class DaggerReservationManagerComponent implements ReservationManagerComponent {
-  private final ScannerModule scannerModule;
+  private final Scanner scanner;
 
-  private DaggerReservationManagerComponent(ScannerModule scannerModuleParam) {
-    this.scannerModule = scannerModuleParam;
+  private DaggerReservationManagerComponent(Scanner scannerParam,
+      ScheduledExecutorService scheduledExecutorService) {
+    this.scanner = scannerParam;
   }
 
-  public static Builder builder() {
+  public static ReservationManagerComponent.Builder builder() {
     return new Builder();
-  }
-
-  public static ReservationManagerComponent create() {
-    return new Builder().build();
   }
 
   @Override
   public ReservationManager getReservationManager() {
-    return new ReservationManager(ScannerModule_ProvideScannerFactory.provideScanner(scannerModule), new FileIO());}
+    return new ReservationManager(scanner, new FileIO());}
 
-  public static final class Builder {
-    private ScannerModule scannerModule;
+  private static final class Builder implements ReservationManagerComponent.Builder {
+    private Scanner scanner;
 
-    private Builder() {
-    }
+    private ScheduledExecutorService scheduledExecutorService;
 
-    public Builder scannerModule(ScannerModule scannerModule) {
-      this.scannerModule = Preconditions.checkNotNull(scannerModule);
+    @Override
+    public Builder scanner(Scanner sc) {
+      this.scanner = Preconditions.checkNotNull(sc);
       return this;
     }
 
+    @Override
+    public Builder scheduledExecutorService(ScheduledExecutorService scheduledExecutorService) {
+      this.scheduledExecutorService = Preconditions.checkNotNull(scheduledExecutorService);
+      return this;
+    }
+
+    @Override
     public ReservationManagerComponent build() {
-      if (scannerModule == null) {
-        this.scannerModule = new ScannerModule();
-      }
-      return new DaggerReservationManagerComponent(scannerModule);
+      Preconditions.checkBuilderRequirement(scanner, Scanner.class);
+      Preconditions.checkBuilderRequirement(scheduledExecutorService, ScheduledExecutorService.class);
+      return new DaggerReservationManagerComponent(scanner, scheduledExecutorService);
     }
   }
 }

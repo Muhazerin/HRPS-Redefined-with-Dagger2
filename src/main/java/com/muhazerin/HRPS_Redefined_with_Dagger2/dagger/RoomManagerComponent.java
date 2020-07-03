@@ -10,7 +10,7 @@ import dagger.BindsInstance;
 import dagger.Component;
 
 @Singleton
-@Component (modules = FIleIOModule.class)
+@Component (modules = FileIOModule.class)
 public interface RoomManagerComponent {
 	public RoomManager getRoomManager();
 	
